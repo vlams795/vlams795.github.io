@@ -1,172 +1,158 @@
-
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="refresh" content="30">
-  <title>ESP32 IoT Monitor</title>
+  <title>ESP32 Water Level Monitor</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: #0d1117; color: #c9d1d9;
-      min-height: 100vh; padding: 1.5rem;
-    }
-    header { margin-bottom: 1.5rem; }
-    header h1 { font-size: 1.4rem; color: #e6edf3; font-weight: 600; }
-    header p  { font-size: 0.8rem; color: #8b949e; margin-top: 4px; }
-    .badge {
-      display: inline-block; font-size: 0.7rem; padding: 2px 10px;
-      border-radius: 99px; margin-left: 8px; vertical-align: middle;
-    }
-    .badge-online  { background: #0d4429; color: #3fb950; }
-    .badge-offline { background: #3d1c1c; color: #f85149; }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem; margin-bottom: 1.5rem;
-    }
-    .card {
-      background: #161b22; border: 1px solid #30363d;
-      border-radius: 10px; padding: 1.2rem;
-    }
-    .card .lbl  { font-size: 0.7rem; color: #8b949e; text-transform: uppercase; letter-spacing: .06em; }
-    .card .val  { font-size: 2.2rem; font-weight: 700; margin: 4px 0 0; line-height: 1; }
-    .card .unit { font-size: 0.85rem; color: #8b949e; }
-    .temp  { color: #f97316; }
-    .hum   { color: #38bdf8; }
-    .hi    { color: #a78bfa; }
-    .rssi  { color: #4ade80; }
-    .chart-box {
-      background: #161b22; border: 1px solid #30363d;
-      border-radius: 10px; padding: 1.2rem; margin-bottom: 1.5rem;
-    }
-    .chart-box h2 { font-size: 0.85rem; color: #8b949e; margin-bottom: 1rem; }
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem; margin-bottom: 1.5rem;
-    }
-    .info-box {
-      background: #161b22; border: 1px solid #30363d;
-      border-radius: 10px; padding: 1rem;
-    }
-    .info-box h2 { font-size: 0.8rem; color: #8b949e; margin-bottom: 0.75rem; }
-    .info-row {
-      display: flex; justify-content: space-between;
-      font-size: 0.8rem; padding: 4px 0;
-      border-bottom: 1px solid #21262d;
-    }
-    .info-row:last-child { border-bottom: none; }
-    .info-row .key { color: #8b949e; }
-    .info-row .val { color: #e6edf3; font-weight: 500; font-family: monospace; }
-    footer { font-size: 0.72rem; color: #6e7681; text-align: center; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d1117;
+         color:#c9d1d9;min-height:100vh;padding:1.5rem}
+    h1{font-size:1.4rem;color:#e6edf3;font-weight:600}
+    .sub{font-size:.78rem;color:#8b949e;margin-top:4px;margin-bottom:1.5rem}
+    .badge{display:inline-block;font-size:.7rem;padding:2px 10px;
+           border-radius:99px;margin-left:8px;vertical-align:middle}
+    .online{background:#0d4429;color:#3fb950}
+    .offline{background:#3d1c1c;color:#f85149}
+    .alert-box{background:#2d1a00;border:1px solid #f97316;border-radius:10px;
+               padding:1rem 1.2rem;margin-bottom:1.5rem;color:#f97316;
+               font-size:.9rem;display:none}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+           gap:1rem;margin-bottom:1.5rem}
+    .card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:1.2rem}
+    .card .lbl{font-size:.7rem;color:#8b949e;text-transform:uppercase;letter-spacing:.06em}
+    .card .val{font-size:2rem;font-weight:700;margin:4px 0 0;line-height:1}
+    .card .unit{font-size:.8rem;color:#8b949e}
+    .c-raw{color:#a78bfa} .c-pct{color:#38bdf8} .c-v{color:#4ade80} .c-lbl{font-size:1.3rem!important}
+    /* Level badge warna */
+    .lv-KERING{color:#6e7681} .lv-RENDAH{color:#38bdf8}
+    .lv-SEDANG{color:#f97316} .lv-TINGGI{color:#f85149} .lv-PENUH{color:#ff0000}
+    /* Progress bar */
+    .progress-box{background:#161b22;border:1px solid #30363d;border-radius:10px;
+                  padding:1.2rem;margin-bottom:1.5rem}
+    .progress-box h2{font-size:.82rem;color:#8b949e;margin-bottom:.75rem}
+    .bar-wrap{background:#21262d;border-radius:99px;height:28px;overflow:hidden;
+              position:relative}
+    .bar-fill{height:100%;border-radius:99px;transition:width .6s ease;
+              background:linear-gradient(90deg,#38bdf8,#0ea5e9)}
+    .bar-fill.high{background:linear-gradient(90deg,#f97316,#ef4444)}
+    .bar-pct{position:absolute;right:10px;top:50%;transform:translateY(-50%);
+             font-size:.8rem;font-weight:600;color:#fff}
+    .chart-box{background:#161b22;border:1px solid #30363d;border-radius:10px;
+               padding:1.2rem;margin-bottom:1.5rem}
+    .chart-box h2{font-size:.82rem;color:#8b949e;margin-bottom:.75rem}
+    .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+               gap:1rem;margin-bottom:1.5rem}
+    .info-box{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:1rem}
+    .info-box h2{font-size:.78rem;color:#8b949e;margin-bottom:.7rem}
+    .info-row{display:flex;justify-content:space-between;font-size:.78rem;
+              padding:4px 0;border-bottom:1px solid #21262d}
+    .info-row:last-child{border-bottom:none}
+    .info-row .k{color:#8b949e} .info-row .v{color:#e6edf3;font-weight:500;font-family:monospace}
+    footer{font-size:.7rem;color:#6e7681;text-align:center}
   </style>
 </head>
 <body>
-<header>
-  <h1>
-    📡 ESP32 Environmental Monitor
-    <span class="badge" id="status-badge">...</span>
-  </h1>
-  <p id="last-update">Memuat data...</p>
-</header>
+<h1>💧 ESP32 Water Level Monitor <span class="badge" id="badge">...</span></h1>
+<p class="sub" id="last-update">Memuat data...</p>
+
+<div class="alert-box" id="alert-box">
+  ⚠ <strong>PERINGATAN:</strong> Level air terdeteksi TINGGI atau PENUH!
+</div>
 
 <div class="cards">
   <div class="card">
-    <div class="lbl">Suhu</div>
-    <div class="val temp" id="val-temp">--</div>
-    <div class="unit">°C</div>
+    <div class="lbl">Level</div>
+    <div class="val c-lbl" id="val-lbl">--</div>
+    <div class="unit">Status</div>
   </div>
   <div class="card">
-    <div class="lbl">Kelembapan</div>
-    <div class="val hum" id="val-hum">--</div>
-    <div class="unit">%RH</div>
+    <div class="lbl">Persentase</div>
+    <div class="val c-pct" id="val-pct">--</div>
+    <div class="unit">%</div>
   </div>
   <div class="card">
-    <div class="lbl">Heat Index</div>
-    <div class="val hi" id="val-hi">--</div>
-    <div class="unit">°C</div>
+    <div class="lbl">Nilai ADC</div>
+    <div class="val c-raw" id="val-raw">--</div>
+    <div class="unit">/ 4095</div>
   </div>
   <div class="card">
-    <div class="lbl">WiFi RSSI</div>
-    <div class="val rssi" id="val-rssi">--</div>
-    <div class="unit">dBm</div>
+    <div class="lbl">Tegangan</div>
+    <div class="val c-v" id="val-v">--</div>
+    <div class="unit">V</div>
+  </div>
+</div>
+
+<div class="progress-box">
+  <h2>Indikator Level Air</h2>
+  <div class="bar-wrap">
+    <div class="bar-fill" id="bar" style="width:0%"></div>
+    <span class="bar-pct" id="bar-pct">0%</span>
   </div>
 </div>
 
 <div class="chart-box">
-  <h2>Tren Data Historis (10 pembacaan terakhir)</h2>
+  <h2>Tren Level Air — 10 Pembacaan Terakhir</h2>
   <canvas id="chart" height="90"></canvas>
 </div>
 
 <div class="info-grid">
   <div class="info-box">
     <h2>Informasi Perangkat</h2>
-    <div class="info-row"><span class="key">Device ID</span><span class="val" id="dev-id">--</span></div>
-    <div class="info-row"><span class="key">Firmware</span><span class="val" id="dev-fw">--</span></div>
-    <div class="info-row"><span class="key">IP Address</span><span class="val" id="dev-ip">--</span></div>
-    <div class="info-row"><span class="key">Uptime</span><span class="val" id="dev-up">--</span></div>
+    <div class="info-row"><span class="k">Device ID</span><span class="v" id="d-id">--</span></div>
+    <div class="info-row"><span class="k">Firmware</span><span class="v" id="d-fw">--</span></div>
+    <div class="info-row"><span class="k">IP Address</span><span class="v" id="d-ip">--</span></div>
+    <div class="info-row"><span class="k">Uptime</span><span class="v" id="d-up">--</span></div>
   </div>
   <div class="info-box">
-    <h2>Informasi Jaringan</h2>
-    <div class="info-row"><span class="key">SSID</span><span class="val" id="net-ssid">--</span></div>
-    <div class="info-row"><span class="key">RSSI</span><span class="val" id="net-rssi">--</span></div>
-    <div class="info-row"><span class="key">Kualitas Sinyal</span><span class="val" id="net-qual">--</span></div>
+    <h2>Ambang Batas (Threshold)</h2>
+    <div class="info-row"><span class="k">Kering</span><span class="v" id="t-dry">--</span></div>
+    <div class="info-row"><span class="k">Rendah</span><span class="v" id="t-low">--</span></div>
+    <div class="info-row"><span class="k">Sedang</span><span class="v" id="t-med">--</span></div>
+    <div class="info-row"><span class="k">Tinggi</span><span class="v" id="t-hi">--</span></div>
   </div>
 </div>
 
-<footer>Data diperbarui setiap 60 detik oleh ESP32 &bull; Halaman auto-refresh setiap 30 detik</footer>
+<footer>Data diperbarui ESP32 setiap 60 detik &bull; Halaman auto-refresh setiap 30 detik</footer>
 
 <script>
-  const USER = 'vlams795';
-  const REPO = 'vlams795.github.io';
-  const URL  = `https://raw.githubusercontent.com/${USER}/${REPO}/main/data/sensor_data.json`;
+  const USER = 'USERNAME_GITHUB_ANDA';
+  const REPO = 'NAMA_REPO_ANDA';
+  const RAW  = `https://raw.githubusercontent.com/${USER}/${REPO}/main/data/sensor_data.json`;
 
   let chart;
-
-  function rssiToQuality(rssi) {
-    if (rssi >= -50) return 'Sangat Baik';
-    if (rssi >= -60) return 'Baik';
-    if (rssi >= -70) return 'Cukup';
-    return 'Lemah';
-  }
+  const LEVEL_COLORS = {
+    KERING:'#6e7681', RENDAH:'#38bdf8', SEDANG:'#f97316', TINGGI:'#f85149', PENUH:'#ff4040'
+  };
 
   function formatUptime(ms) {
-    const s = Math.floor(ms / 1000);
-    const m = Math.floor(s / 60);
-    const h = Math.floor(m / 60);
-    return `${h}j ${m % 60}m ${s % 60}d`;
+    const s=Math.floor(ms/1000), m=Math.floor(s/60), h=Math.floor(m/60);
+    return `${h}j ${m%60}m ${s%60}d`;
   }
 
   function initChart() {
-    const ctx = document.getElementById('chart').getContext('2d');
-    chart = new Chart(ctx, {
+    chart = new Chart(document.getElementById('chart').getContext('2d'), {
       type: 'line',
       data: {
         labels: [],
-        datasets: [
-          {
-            label: 'Suhu (°C)',
-            data: [], borderColor: '#f97316',
-            backgroundColor: 'rgba(249,115,22,0.1)',
-            tension: 0.4, fill: true, pointRadius: 4
-          },
-          {
-            label: 'Kelembapan (%RH)',
-            data: [], borderColor: '#38bdf8',
-            backgroundColor: 'rgba(56,189,248,0.1)',
-            tension: 0.4, fill: true, pointRadius: 4
-          }
-        ]
+        datasets: [{
+          label: 'Persentase Level Air (%)',
+          data: [], borderColor: '#38bdf8',
+          backgroundColor: 'rgba(56,189,248,0.12)',
+          tension: 0.4, fill: true, pointRadius: 5,
+          pointBackgroundColor: '#38bdf8'
+        }]
       },
       options: {
         responsive: true,
-        plugins: { legend: { labels: { color: '#8b949e', font: { size: 11 } } } },
+        plugins: { legend: { labels: { color:'#8b949e', font:{size:11} } } },
         scales: {
-          x: { ticks: { color: '#6e7681', font: { size: 10 } }, grid: { color: '#21262d' } },
-          y: { ticks: { color: '#6e7681', font: { size: 10 } }, grid: { color: '#21262d' } }
+          x: { ticks:{color:'#6e7681',font:{size:10}}, grid:{color:'#21262d'} },
+          y: { min:0, max:100,
+               ticks:{color:'#6e7681',font:{size:10},callback:v=>v+'%'},
+               grid:{color:'#21262d'} }
         }
       }
     });
@@ -174,47 +160,62 @@
 
   async function fetchData() {
     try {
-      const res  = await fetch(URL + '?nc=' + Date.now());
+      const res  = await fetch(RAW + '?nc=' + Date.now());
       const data = await res.json();
+      const lbl  = data.level_label || 'UNKNOWN';
+      const pct  = data.percentage  || 0;
+      const isHigh = data.alert;
 
       // Kartu utama
-      document.getElementById('val-temp').textContent = data.temperature.toFixed(1);
-      document.getElementById('val-hum').textContent  = data.humidity.toFixed(1);
-      document.getElementById('val-hi').textContent   = (data.heat_index || '--');
-      document.getElementById('val-rssi').textContent = data.wifi_rssi;
+      const lblEl = document.getElementById('val-lbl');
+      lblEl.textContent = lbl;
+      lblEl.className = 'val c-lbl lv-' + lbl;
+      document.getElementById('val-pct').textContent = pct.toFixed(1);
+      document.getElementById('val-raw').textContent = data.raw_adc;
+      document.getElementById('val-v').textContent   = data.voltage.toFixed(3);
+
+      // Progress bar
+      const bar = document.getElementById('bar');
+      bar.style.width = pct + '%';
+      bar.className = 'bar-fill' + (isHigh ? ' high' : '');
+      document.getElementById('bar-pct').textContent = pct.toFixed(1) + '%';
+
+      // Alert
+      document.getElementById('alert-box').style.display = isHigh ? 'block' : 'none';
 
       // Info perangkat
-      document.getElementById('dev-id').textContent = (data.device_id || '--').slice(-8);
-      document.getElementById('dev-fw').textContent = data.firmware || '--';
-      document.getElementById('dev-ip').textContent = data.ip_address || '--';
-      document.getElementById('dev-up').textContent = formatUptime(data.uptime_ms || 0);
+      document.getElementById('d-id').textContent = (data.device_id||'--').slice(-8);
+      document.getElementById('d-fw').textContent = data.firmware || '--';
+      document.getElementById('d-ip').textContent = data.ip_address || '--';
+      document.getElementById('d-up').textContent = formatUptime(data.uptime_ms||0);
 
-      // Info jaringan
-      document.getElementById('net-ssid').textContent = data.wifi_ssid || '--';
-      document.getElementById('net-rssi').textContent = data.wifi_rssi + ' dBm';
-      document.getElementById('net-qual').textContent = rssiToQuality(data.wifi_rssi);
+      // Threshold
+      if (data.thresholds) {
+        document.getElementById('t-dry').textContent = '< '  + data.thresholds.dry;
+        document.getElementById('t-low').textContent = '< '  + data.thresholds.low;
+        document.getElementById('t-med').textContent = '< '  + data.thresholds.medium;
+        document.getElementById('t-hi').textContent  = '≥ '  + data.thresholds.high;
+      }
 
-      // Status badge
-      const badge = document.getElementById('status-badge');
-      badge.textContent = 'Online';
-      badge.className = 'badge badge-online';
-
-      // Update grafik historis
+      // Chart historis
       if (data.history && data.history.length > 0) {
-        const labels = data.history.map((_, i) => `T-${data.history.length - 1 - i}`);
-        chart.data.labels = labels;
-        chart.data.datasets[0].data = data.history.map(d => d.temp);
-        chart.data.datasets[1].data = data.history.map(d => d.hum);
+        chart.data.labels = data.history.map((_,i)=>'T-'+(data.history.length-1-i));
+        chart.data.datasets[0].data = data.history.map(d=>d.pct);
+        chart.data.datasets[0].pointBackgroundColor =
+          data.history.map(d => LEVEL_COLORS[d.lbl] || '#38bdf8');
         chart.update();
       }
 
+      // Badge & status
+      document.getElementById('badge').textContent = 'Online';
+      document.getElementById('badge').className = 'badge online';
       document.getElementById('last-update').textContent =
         'Data terakhir diterima: ' + new Date().toLocaleString('id-ID');
 
-    } catch (e) {
-      document.getElementById('status-badge').textContent = 'Offline';
-      document.getElementById('status-badge').className = 'badge badge-offline';
-      document.getElementById('last-update').textContent = 'Gagal memuat data: ' + e.message;
+    } catch(e) {
+      document.getElementById('badge').textContent = 'Offline';
+      document.getElementById('badge').className = 'badge offline';
+      document.getElementById('last-update').textContent = 'Gagal memuat: ' + e.message;
     }
   }
 
