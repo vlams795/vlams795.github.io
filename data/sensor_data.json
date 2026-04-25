@@ -6,8 +6,8 @@
   "humidity": 0,
   "heat_index": -3.9,
   "wifi_ssid": "Gerlong15  2.4G",
-  "wifi_rssi": -74,
+  "wifi_rssi": -84,
   "ip_address": "192.168.18.131",
-  "uptime_ms": 60400,
+  "uptime_ms": 60401,
   "history": []
 }
