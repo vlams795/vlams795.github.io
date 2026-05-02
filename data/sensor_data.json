@@ -2,9 +2,9 @@
   "device_id": "70:4B:CA:27:5C:2C",
   "device_name": "ESP32-WaterLevel-Monitor",
   "firmware": "v1.0.0",
-  "raw_adc": 1745,
-  "voltage": 1.406,
-  "percentage": 42.6,
+  "raw_adc": 1957,
+  "voltage": 1.577,
+  "percentage": 47.8,
   "level_label": "SEDANG",
   "alert": false,
   "thresholds": {
@@ -15,69 +15,69 @@
     "max": 4095
   },
   "wifi_ssid": "Gerlong15  2.4G",
-  "wifi_rssi": -67,
+  "wifi_rssi": -68,
   "ip_address": "192.168.18.131",
-  "uptime_ms": 360401,
+  "uptime_ms": 420400,
   "history": [
     {
-      "raw": 1894,
-      "pct": 46.25153,
-      "lbl": "SEDANG",
-      "t": 344887
+      "raw": 1124,
+      "pct": 27.44811,
+      "lbl": "RENDAH",
+      "t": 408279
     },
     {
-      "raw": 1920,
-      "pct": 46.88645,
+      "raw": 2005,
+      "pct": 48.96215,
       "lbl": "SEDANG",
-      "t": 346887
+      "t": 410279
     },
     {
-      "raw": 1877,
-      "pct": 45.83639,
+      "raw": 1988,
+      "pct": 48.54701,
       "lbl": "SEDANG",
-      "t": 348887
+      "t": 412279
     },
     {
-      "raw": 1822,
-      "pct": 44.49329,
+      "raw": 1985,
+      "pct": 48.47375,
       "lbl": "SEDANG",
-      "t": 350887
+      "t": 414279
     },
     {
-      "raw": 1787,
-      "pct": 43.63858,
+      "raw": 1960,
+      "pct": 47.86325,
       "lbl": "SEDANG",
-      "t": 352887
+      "t": 416279
     },
     {
-      "raw": 1790,
-      "pct": 43.71185,
+      "raw": 1957,
+      "pct": 47.78999,
       "lbl": "SEDANG",
-      "t": 354887
+      "t": 418279
     },
     {
-      "raw": 1758,
-      "pct": 42.9304,
-      "lbl": "SEDANG",
-      "t": 356887
+      "raw": 769,
+      "pct": 18.779,
+      "lbl": "RENDAH",
+      "t": 400279
     },
     {
-      "raw": 1745,
-      "pct": 42.61294,
-      "lbl": "SEDANG",
-      "t": 358887
+      "raw": 773,
+      "pct": 18.87668,
+      "lbl": "RENDAH",
+      "t": 402279
     },
     {
-      "raw": 1830,
-      "pct": 44.68864,
-      "lbl": "SEDANG",
-      "t": 340887
+      "raw": 772,
+      "pct": 18.85226,
+      "lbl": "RENDAH",
+      "t": 404280
     },
     {
-      "raw": 1918,
-      "pct": 46.83761,
-      "lbl": "SEDANG",
-      "t": 342887
+      "raw": 1346,
+      "pct": 32.86935,
+      "lbl": "RENDAH",
+      "t": 406279
     }
   ]
 }
