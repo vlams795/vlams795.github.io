@@ -2,10 +2,10 @@
   "device_id": "70:4B:CA:27:5C:2C",
   "device_name": "ESP32-WaterLevel-Monitor",
   "firmware": "v1.0.0",
-  "raw_adc": 0,
-  "voltage": 0,
-  "percentage": 0,
-  "level_label": "KERING",
+  "raw_adc": 1922,
+  "voltage": 1.549,
+  "percentage": 46.9,
+  "level_label": "SEDANG",
   "alert": false,
   "thresholds": {
     "dry": 500,
@@ -15,69 +15,69 @@
     "max": 4095
   },
   "wifi_ssid": "Gerlong15  2.4G",
-  "wifi_rssi": -71,
+  "wifi_rssi": -72,
   "ip_address": "192.168.18.131",
-  "uptime_ms": 60401,
+  "uptime_ms": 120401,
   "history": [
     {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 44206
+      "raw": 1900,
+      "pct": 46.39805,
+      "lbl": "SEDANG",
+      "t": 108345
     },
     {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 46206
+      "raw": 1918,
+      "pct": 46.83761,
+      "lbl": "SEDANG",
+      "t": 110345
     },
     {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 48206
+      "raw": 1911,
+      "pct": 46.66667,
+      "lbl": "SEDANG",
+      "t": 112345
     },
     {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 50206
+      "raw": 1921,
+      "pct": 46.91087,
+      "lbl": "SEDANG",
+      "t": 114345
     },
     {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 52206
+      "raw": 1916,
+      "pct": 46.78877,
+      "lbl": "SEDANG",
+      "t": 116345
     },
     {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 54206
+      "raw": 1922,
+      "pct": 46.93529,
+      "lbl": "SEDANG",
+      "t": 118345
     },
     {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 56206
+      "raw": 1893,
+      "pct": 46.22711,
+      "lbl": "SEDANG",
+      "t": 100345
     },
     {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 58206
+      "raw": 1908,
+      "pct": 46.59341,
+      "lbl": "SEDANG",
+      "t": 102345
     },
     {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 40206
+      "raw": 1888,
+      "pct": 46.10501,
+      "lbl": "SEDANG",
+      "t": 104346
     },
     {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 42206
+      "raw": 1909,
+      "pct": 46.61783,
+      "lbl": "SEDANG",
+      "t": 106345
     }
   ]
 }
