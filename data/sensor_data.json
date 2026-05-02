@@ -2,10 +2,10 @@
   "device_id": "70:4B:CA:27:5C:2C",
   "device_name": "ESP32-WaterLevel-Monitor",
   "firmware": "v1.0.0",
-  "raw_adc": 1957,
-  "voltage": 1.577,
-  "percentage": 47.8,
-  "level_label": "SEDANG",
+  "raw_adc": 0,
+  "voltage": 0,
+  "percentage": 0,
+  "level_label": "KERING",
   "alert": false,
   "thresholds": {
     "dry": 500,
@@ -15,69 +15,69 @@
     "max": 4095
   },
   "wifi_ssid": "Gerlong15  2.4G",
-  "wifi_rssi": -68,
+  "wifi_rssi": -70,
   "ip_address": "192.168.18.131",
-  "uptime_ms": 420400,
+  "uptime_ms": 480401,
   "history": [
     {
-      "raw": 1124,
-      "pct": 27.44811,
-      "lbl": "RENDAH",
-      "t": 408279
+      "raw": 0,
+      "pct": 0,
+      "lbl": "KERING",
+      "t": 472392
     },
     {
-      "raw": 2005,
-      "pct": 48.96215,
-      "lbl": "SEDANG",
-      "t": 410279
+      "raw": 0,
+      "pct": 0,
+      "lbl": "KERING",
+      "t": 474392
     },
     {
-      "raw": 1988,
-      "pct": 48.54701,
-      "lbl": "SEDANG",
-      "t": 412279
+      "raw": 0,
+      "pct": 0,
+      "lbl": "KERING",
+      "t": 476392
     },
     {
-      "raw": 1985,
-      "pct": 48.47375,
-      "lbl": "SEDANG",
-      "t": 414279
+      "raw": 0,
+      "pct": 0,
+      "lbl": "KERING",
+      "t": 478392
     },
     {
-      "raw": 1960,
-      "pct": 47.86325,
-      "lbl": "SEDANG",
-      "t": 416279
+      "raw": 22,
+      "pct": 0.537241,
+      "lbl": "KERING",
+      "t": 460392
     },
     {
-      "raw": 1957,
-      "pct": 47.78999,
-      "lbl": "SEDANG",
-      "t": 418279
+      "raw": 3,
+      "pct": 0.07326,
+      "lbl": "KERING",
+      "t": 462392
     },
     {
-      "raw": 769,
-      "pct": 18.779,
-      "lbl": "RENDAH",
-      "t": 400279
+      "raw": 7,
+      "pct": 0.17094,
+      "lbl": "KERING",
+      "t": 464392
     },
     {
-      "raw": 773,
-      "pct": 18.87668,
-      "lbl": "RENDAH",
-      "t": 402279
+      "raw": 0,
+      "pct": 0,
+      "lbl": "KERING",
+      "t": 466392
     },
     {
-      "raw": 772,
-      "pct": 18.85226,
-      "lbl": "RENDAH",
-      "t": 404280
+      "raw": 0,
+      "pct": 0,
+      "lbl": "KERING",
+      "t": 468392
     },
     {
-      "raw": 1346,
-      "pct": 32.86935,
-      "lbl": "RENDAH",
-      "t": 406279
+      "raw": 0,
+      "pct": 0,
+      "lbl": "KERING",
+      "t": 470392
     }
   ]
 }
