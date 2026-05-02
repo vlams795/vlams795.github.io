@@ -15,69 +15,69 @@
     "max": 4095
   },
   "wifi_ssid": "Gerlong15  2.4G",
-  "wifi_rssi": -70,
+  "wifi_rssi": -68,
   "ip_address": "192.168.18.131",
-  "uptime_ms": 600401,
+  "uptime_ms": 660401,
   "history": [
     {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 580302
+      "raw": 2051,
+      "pct": 50.08547,
+      "lbl": "SEDANG",
+      "t": 644412
+    },
+    {
+      "raw": 1948,
+      "pct": 47.57021,
+      "lbl": "SEDANG",
+      "t": 646412
+    },
+    {
+      "raw": 2041,
+      "pct": 49.84127,
+      "lbl": "SEDANG",
+      "t": 648412
+    },
+    {
+      "raw": 878,
+      "pct": 21.44078,
+      "lbl": "RENDAH",
+      "t": 650412
+    },
+    {
+      "raw": 894,
+      "pct": 21.8315,
+      "lbl": "RENDAH",
+      "t": 652413
     },
     {
       "raw": 0,
       "pct": 0,
       "lbl": "KERING",
-      "t": 582302
+      "t": 654412
     },
     {
       "raw": 0,
       "pct": 0,
       "lbl": "KERING",
-      "t": 584302
+      "t": 656412
     },
     {
       "raw": 0,
       "pct": 0,
       "lbl": "KERING",
-      "t": 586302
+      "t": 658412
     },
     {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 588302
+      "raw": 2064,
+      "pct": 50.40294,
+      "lbl": "SEDANG",
+      "t": 640412
     },
     {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 590302
-    },
-    {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 592302
-    },
-    {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 594302
-    },
-    {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 596302
-    },
-    {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 598302
+      "raw": 2053,
+      "pct": 50.13431,
+      "lbl": "SEDANG",
+      "t": 642412
     }
   ]
 }
