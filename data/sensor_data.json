@@ -2,10 +2,10 @@
   "device_id": "70:4B:CA:27:5C:2C",
   "device_name": "ESP32-WaterLevel-Monitor",
   "firmware": "v1.0.0",
-  "raw_adc": 0,
-  "voltage": 0,
-  "percentage": 0,
-  "level_label": "KERING",
+  "raw_adc": 2029,
+  "voltage": 1.635,
+  "percentage": 49.5,
+  "level_label": "SEDANG",
   "alert": false,
   "thresholds": {
     "dry": 500,
@@ -17,67 +17,67 @@
   "wifi_ssid": "Gerlong15  2.4G",
   "wifi_rssi": -68,
   "ip_address": "192.168.18.131",
-  "uptime_ms": 660401,
+  "uptime_ms": 720401,
   "history": [
     {
-      "raw": 2051,
-      "pct": 50.08547,
+      "raw": 2012,
+      "pct": 49.13309,
       "lbl": "SEDANG",
-      "t": 644412
+      "t": 708325
     },
     {
-      "raw": 1948,
-      "pct": 47.57021,
+      "raw": 2029,
+      "pct": 49.54823,
       "lbl": "SEDANG",
-      "t": 646412
+      "t": 710325
     },
     {
-      "raw": 2041,
-      "pct": 49.84127,
+      "raw": 1982,
+      "pct": 48.40049,
       "lbl": "SEDANG",
-      "t": 648412
+      "t": 712325
     },
     {
-      "raw": 878,
-      "pct": 21.44078,
-      "lbl": "RENDAH",
-      "t": 650412
-    },
-    {
-      "raw": 894,
-      "pct": 21.8315,
-      "lbl": "RENDAH",
-      "t": 652413
-    },
-    {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 654412
-    },
-    {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 656412
-    },
-    {
-      "raw": 0,
-      "pct": 0,
-      "lbl": "KERING",
-      "t": 658412
-    },
-    {
-      "raw": 2064,
-      "pct": 50.40294,
+      "raw": 2032,
+      "pct": 49.62149,
       "lbl": "SEDANG",
-      "t": 640412
+      "t": 714325
     },
     {
-      "raw": 2053,
-      "pct": 50.13431,
+      "raw": 2019,
+      "pct": 49.30403,
       "lbl": "SEDANG",
-      "t": 642412
+      "t": 716325
+    },
+    {
+      "raw": 2029,
+      "pct": 49.54823,
+      "lbl": "SEDANG",
+      "t": 718325
+    },
+    {
+      "raw": 2029,
+      "pct": 49.54823,
+      "lbl": "SEDANG",
+      "t": 700325
+    },
+    {
+      "raw": 2038,
+      "pct": 49.76801,
+      "lbl": "SEDANG",
+      "t": 702325
+    },
+    {
+      "raw": 2027,
+      "pct": 49.49939,
+      "lbl": "SEDANG",
+      "t": 704325
+    },
+    {
+      "raw": 2033,
+      "pct": 49.64591,
+      "lbl": "SEDANG",
+      "t": 706325
     }
   ]
 }
