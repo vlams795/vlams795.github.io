@@ -15,69 +15,69 @@
     "max": 4095
   },
   "wifi_ssid": "Gerlong15  2.4G",
-  "wifi_rssi": -75,
+  "wifi_rssi": -74,
   "ip_address": "192.168.18.131",
-  "uptime_ms": 1140401,
+  "uptime_ms": 1200401,
   "history": [
     {
       "raw": 0,
       "pct": 0,
       "lbl": "KERING",
-      "t": 1136776
+      "t": 1180686
     },
     {
       "raw": 0,
       "pct": 0,
       "lbl": "KERING",
-      "t": 1138776
+      "t": 1182686
     },
     {
       "raw": 0,
       "pct": 0,
       "lbl": "KERING",
-      "t": 1120776
+      "t": 1184686
     },
     {
       "raw": 0,
       "pct": 0,
       "lbl": "KERING",
-      "t": 1122776
+      "t": 1186686
     },
     {
       "raw": 0,
       "pct": 0,
       "lbl": "KERING",
-      "t": 1124776
+      "t": 1188686
     },
     {
       "raw": 0,
       "pct": 0,
       "lbl": "KERING",
-      "t": 1126776
+      "t": 1190686
     },
     {
       "raw": 0,
       "pct": 0,
       "lbl": "KERING",
-      "t": 1128776
+      "t": 1192686
     },
     {
       "raw": 0,
       "pct": 0,
       "lbl": "KERING",
-      "t": 1130776
+      "t": 1194686
     },
     {
       "raw": 0,
       "pct": 0,
       "lbl": "KERING",
-      "t": 1132776
+      "t": 1196686
     },
     {
       "raw": 0,
       "pct": 0,
       "lbl": "KERING",
-      "t": 1134776
+      "t": 1198686
     }
   ]
 }
