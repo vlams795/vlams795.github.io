@@ -1,3 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESP32 TDS Monitor</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d1117;
+         color:#c9d1d9;min-height:100vh;padding:1.5rem}
+    header{display:flex;align-items:flex-start;justify-content:space-between;
+           flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem}
+    header h1{font-size:1.35rem;color:#e6edf3;font-weight:600}
+    header p{font-size:.78rem;color:#8b949e;margin-top:4px}
+    .badge{display:inline-block;font-size:.7rem;padding:2px 10px;
+           border-radius:99px;margin-left:8px;vertical-align:middle}
+    .online{background:#0d4429;color:#3fb950}
+    .offline{background:#3d1c1c;color:#f85149}
+    /* Tombol Refresh */
+    .btn-refresh{display:flex;align-items:center;gap:6px;background:#21262d;
+      border:1px solid #30363d;color:#e6edf3;font-size:.82rem;padding:.45rem 1rem;
+      border-radius:8px;cursor:pointer;transition:background .15s;white-space:nowrap}
+    .btn-refresh:hover{background:#30363d}
+    .btn-refresh.loading{opacity:.6;pointer-events:none}
+    .spin{display:inline-block;animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    /* Notifikasi data baru */
+    .notif{background:#0d2d0d;border:1px solid #3fb950;border-radius:8px;
+      padding:.7rem 1rem;margin-bottom:1.2rem;font-size:.82rem;
+      color:#3fb950;display:none;cursor:pointer}
+    .notif:hover{background:#0f3b0f}
+    /* Cards */
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+           gap:1rem;margin-bottom:1.5rem}
+    .card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:1.2rem}
+    .card .lbl{font-size:.7rem;color:#8b949e;text-transform:uppercase;letter-spacing:.06em}
+    .card .val{font-size:2rem;font-weight:700;margin:4px 0 0;line-height:1}
+    .card .unit{font-size:.8rem;color:#8b949e}
+    .c-tds{color:#38bdf8}
+    .c-v{color:#4ade80}
+    .c-rssi{color:#a78bfa}
+    .c-q{font-size:1.3rem!important}
+    /* Warna kualitas */
+    .q-MURNI{color:#3fb950} .q-BAIK{color:#38bdf8}
+    .q-SEDANG{color:#a78bfa} .q-LAYAK{color:#f97316} .q-BURUK{color:#f85149}
+    /* Skala kualitas */
+    .scale-box{background:#161b22;border:1px solid #30363d;border-radius:10px;
+               padding:1.2rem;margin-bottom:1.5rem}
+    .scale-box h2{font-size:.82rem;color:#8b949e;margin-bottom:.75rem}
+    .scale{display:flex;gap:4px}
+    .scale-item{flex:1;padding:8px 4px;border-radius:6px;text-align:center;
+                font-size:.68rem;font-weight:600;opacity:.3;transition:opacity .3s,transform .2s}
+    .scale-item.active{opacity:1;transform:translateY(-2px)}
+    .s0{background:#0d2d0d;color:#3fb950} .s1{background:#0d2040;color:#38bdf8}
+    .s2{background:#1c1040;color:#a78bfa} .s3{background:#2d1a00;color:#f97316}
+    .s4{background:#2d0d0d;color:#f85149}
+    /* Chart */
+    .chart-box{background:#161b22;border:1px solid #30363d;border-radius:10px;
+               padding:1.2rem;margin-bottom:1.5rem}
+    .chart-box h2{font-size:.82rem;color:#8b949e;margin-bottom:.75rem}
+    /* Info grid */
+    .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+               gap:1rem;margin-bottom:1.5rem}
+    .info-box{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:1rem}
+    .info-box h2{font-size:.78rem;color:#8b949e;margin-bottom:.7rem}
+    .info-row{display:flex;justify-content:space-between;font-size:.78rem;
+              padding:4px 0;border-bottom:1px solid #21262d}
+    .info-row:last-child{border-bottom:none}
+    .info-row .k{color:#8b949e}
+    .info-row .v{color:#e6edf3;font-weight:500;font-family:monospace}
+    footer{font-size:.7rem;color:#6e7681;text-align:center}
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>💧 ESP32 TDS Water Monitor
+      <span class="badge" id="badge">—</span>
+    </h1>
+    <p id="last-update">Tekan tombol refresh untuk memuat data terbaru.</p>
+  </div>
+  <button class="btn-refresh" id="btn-refresh" onclick="fetchData()">
+    <span id="btn-icon">↻</span> Refresh Data
+  </button>
+</header>
+
+<div class="notif" id="notif" onclick="fetchData()">
+  🔄 Data baru tersedia dari ESP32 — klik untuk memuat ulang
+</div>
+
+<!-- Kartu Utama -->
+<div class="cards">
+  <div class="card">
+    <div class="lbl">Nilai TDS</div>
+    <div class="val c-tds" id="val-tds">—</div>
+    <div class="unit">ppm</div>
+  </div>
+  <div class="card">
+    <div class="lbl">Kualitas Air</div>
+    <div class="val c-q" id="val-q">—</div>
+    <div class="unit">Status</div>
+  </div>
+  <div class="card">
+    <div class="lbl">Tegangan Sensor</div>
+    <div class="val c-v" id="val-v">—</div>
+    <div class="unit">Volt</div>
+  </div>
+  <div class="card">
+    <div class="lbl">WiFi RSSI</div>
+    <div class="val c-rssi" id="val-rssi">—</div>
+    <div class="unit">dBm</div>
+  </div>
+</div>
+
+<!-- Skala Kualitas -->
+<div class="scale-box">
+  <h2>Skala Kualitas Air (WHO / SNI 01-3553-2006)</h2>
+  <div class="scale">
+    <div class="scale-item s0" id="sq-0">MURNI<br><small>&lt;50 ppm</small></div>
+    <div class="scale-item s1" id="sq-1">BAIK<br><small>50–150</small></div>
+    <div class="scale-item s2" id="sq-2">SEDANG<br><small>150–300</small></div>
+    <div class="scale-item s3" id="sq-3">LAYAK<br><small>300–500</small></div>
+    <div class="scale-item s4" id="sq-4">BURUK<br><small>&gt;500 ppm</small></div>
+  </div>
+</div>
+
+<!-- Chart -->
+<div class="chart-box">
+  <h2>Tren TDS — 10 Pembacaan Terakhir</h2>
+  <canvas id="chart" height="90"></canvas>
+</div>
+
+<!-- Info -->
+<div class="info-grid">
+  <div class="info-box">
+    <h2>Informasi Perangkat</h2>
+    <div class="info-row"><span class="k">Device ID</span><span class="v" id="d-id">—</span></div>
+    <div class="info-row"><span class="k">Firmware</span><span class="v" id="d-fw">—</span></div>
+    <div class="info-row"><span class="k">IP Address</span><span class="v" id="d-ip">—</span></div>
+    <div class="info-row"><span class="k">Uptime</span><span class="v" id="d-up">—</span></div>
+  </div>
+  <div class="info-box">
+    <h2>Informasi Jaringan</h2>
+    <div class="info-row"><span class="k">SSID</span><span class="v" id="n-ssid">—</span></div>
+    <div class="info-row"><span class="k">RSSI</span><span class="v" id="n-rssi">—</span></div>
+    <div class="info-row"><span class="k">Kualitas Sinyal</span><span class="v" id="n-qual">—</span></div>
+    <div class="info-row"><span class="k">Upload interval</span><span class="v">60 detik</span></div>
+  </div>
+</div>
+
+<footer>
+  Data diperbarui ESP32 setiap 60 detik &bull;
+  Tidak ada auto-refresh — gunakan tombol ↻ di atas
+</footer>
+
 <script>
   const USER   = 'vlams795';   // ← ganti
   const REPO   = 'vlams795.github.io';         // ← ganti
